@@ -53,7 +53,7 @@ app.post('/register', async (req, res) => {
                 to: req.body.email, // list of receivers
                 subject: "Verify email to login", // Subject line
                 text: "Verify email to login", // plain text body
-                html: `<b>Click on the link to verify your email <a href="http://localhost:3000/confirm/${verifyString}">Click here</a></b>`, // html body
+                html: `<b>Click on the link to verify your email <a href="https://url-shortner-ap.herokuapp.com/confirm/${verifyString}">Click here</a></b>`, // html body
             });
 
             await db.collection("users").insertOne(req.body)
@@ -169,7 +169,7 @@ app.post('/forgetpassword', async (req, res) => {
                 to: req.body.email, // list of receivers
                 subject: "Reset Password", // Subject line
                 text: "Reset Password", // plain text body
-                html: `<b>Click on the link to reset your password <a href="http://localhost:3000/verify/${randomString}">Click here</a></b>`, // html body
+                html: `<b>Click on the link to reset your password <a href="https://url-shortner-ap.herokuapp.com/verify/${randomString}">Click here</a></b>`, // html body
             });
 
             await db.collection("users").updateOne({

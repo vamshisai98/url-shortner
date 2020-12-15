@@ -183,7 +183,7 @@ app.post('/forgetpassword', async (req, res) => {
             res.status(200).json({
                 message: "user exists, Please check your mail"
             })
-            clientInfo.close()
+        
         } else {
             res.status(400).json({
                 message: "user doesn't exist"
@@ -351,3 +351,7 @@ app.get('/getLongUrl/:str', async (req, res) => {
 
 
 app.listen(port, () => console.log('your app is running in port: ', port))
+
+
+
+

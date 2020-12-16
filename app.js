@@ -21,10 +21,10 @@ app.use(cors())
 //     next()
 // })
 
-app.get('/allow-cors', function(request, response) {
-    response.set('Access-Control-Allow-Origin', '*');
-    response.sendFile(__dirname + '/message.json');
-  });
+// app.get('/allow-cors', function(request, response) {
+//     response.set('Access-Control-Allow-Origin', '*');
+//     response.sendFile(__dirname + '/message.json');
+//   });
 
 const dbURL = process.env.DB_URL || "mongodb://127.0.0.1:27017"
 
@@ -164,7 +164,7 @@ app.post('/forgetpassword', async (req, res) => {
         if (result) {
             var randomString = (Math.random() * 1e32).toString(36)
             let transporter = nodemailer.createTransport({
-                host: "smtp.gmail.com",
+                service: 'gmail',
                 port: 587,
                 secure: false, // true for 465, false for other ports
                 auth: {

@@ -162,7 +162,7 @@ app.post('/forgetpassword', async (req, res) => {
         })
         console.log(result)
         if (result) {
-            let randomString = (Math.random() * 1e32).toString(36)
+            var randomString = (Math.random() * 1e32).toString(36)
             let transporter = nodemailer.createTransport({
                 host: "smtp.gmail.com",
                 port: 587,

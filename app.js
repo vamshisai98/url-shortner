@@ -104,7 +104,7 @@ app.get('/confirm/:verifyString', async (req, res) => {
                         verifystring: ''
                     }
                 })
-                res.redirect(`http://localhost:8000/frontend/index.html?${result._id}`)
+                res.redirect(`https://url-shortner-node-app.netlify.app/index.html?${result._id}`)
             }
             clientInfo.close()
         } else {
@@ -164,7 +164,7 @@ app.post('/forgetpassword', async (req, res) => {
         if (result) {
             var randomString = (Math.random() * 1e32).toString(36)
             let transporter = nodemailer.createTransport({
-                service: 'gmail',
+                host: "smtp.gmail.com",
                 port: 587,
                 secure: false, // true for 465, false for other ports
                 auth: {
@@ -217,7 +217,7 @@ app.get('/verify/:randomString', async (req, res) => {
         if (result) {
 
             if (result.randomstring == req.params.randomString) {
-                res.redirect(`http://localhost:8000/frontend/changepwd.html?randomstring=${req.params.randomString}`)
+                res.redirect(`https://url-shortner-node-app.netlify.app/changepwd.html?randomstring=${req.params.randomString}`)
             }
         } else {
             res.send('<h1>Link has expired</h1>')

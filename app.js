@@ -14,7 +14,6 @@ const tokenAuth = require('./middlewares/token')
 
 const app = express()
 app.use(express.json())
-app.use(cors())
 
 // app.use((req,res,next)=>{
 //     res.header('Access-Control-Allow-Origin','*')
@@ -26,6 +25,18 @@ app.use(cors())
 //     response.sendFile(__dirname + '/message.json');
 //   });
 
+var whitelist = ['https://url-shortner-node-app.netlify.app/', 'http://localhost:8000/']
+var corsOptions = {
+    origin: function (origin, callback) {
+        if (whitelist.indexOf(origin) !== -1) {
+            callback(null, true)
+        } else {
+            callback(new Error('Not allowed by CORS'))
+        }
+    }
+}
+
+app.use(cors(corsOptions))
 const dbURL = process.env.DB_URL || "mongodb://127.0.0.1:27017"
 
 app.post('/register', async (req, res) => {
@@ -129,12 +140,17 @@ app.post('/login', async (req, res) => {
             let isTrue = await bcrypt.compare(req.body.password, result.password)
             if (isTrue) {
 
-                let token = await jwt.sign({"uid":result._id,"uname":result.username},process.env.TOKEN_PASS,{expiresIn:'1h'})
+                let token = await jwt.sign({
+                    "uid": result._id,
+                    "uname": result.username
+                }, process.env.TOKEN_PASS, {
+                    expiresIn: '1h'
+                })
                 res.status(200).json({
                     message: 'user login successful',
                     result,
                     token,
-                    status:200      
+                    status: 200
                 })
 
             } else {
@@ -193,7 +209,7 @@ app.post('/forgetpassword', async (req, res) => {
             res.status(200).json({
                 message: "user exists, Please check your mail"
             })
-        
+
         } else {
             res.status(400).json({
                 message: "user doesn't exist"
@@ -337,7 +353,7 @@ app.get('/getLongUrl/:str', async (req, res) => {
                 }
             })
         if (result) {
-        
+
             await db.collection("users").updateOne({
                 "url.shortURL": {
                     "$in": [req.params.str]
@@ -347,7 +363,7 @@ app.get('/getLongUrl/:str', async (req, res) => {
                     "url.$.count": 1
                 }
             })
-         
+
             res.redirect(result.url[0].longURL)
         } else {
             res.status(400).json({
@@ -361,7 +377,3 @@ app.get('/getLongUrl/:str', async (req, res) => {
 
 
 app.listen(port, () => console.log('your app is running in port: ', port))
-
-
-
-

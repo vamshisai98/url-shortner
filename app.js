@@ -104,7 +104,7 @@ app.get('/confirm/:verifyString', async (req, res) => {
                         verifystring: ''
                     }
                 })
-                res.redirect(`https://url-shortner-node-app.netlify.app/index.html?${result._id}`)
+                res.redirect(`https://url-shortner-node-app.netlify.app/frontend/index.html?${result._id}`)
             }
             clientInfo.close()
         } else {
@@ -217,7 +217,7 @@ app.get('/verify/:randomString', async (req, res) => {
         if (result) {
 
             if (result.randomstring == req.params.randomString) {
-                res.redirect(`https://url-shortner-node-app.netlify.app/changepwd.html?randomstring=${req.params.randomString}`)
+                res.redirect(`https://url-shortner-node-app.netlify.app/frontend/changepwd.html?randomstring=${req.params.randomString}`)
             }
         } else {
             res.send('<h1>Link has expired</h1>')

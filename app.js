@@ -15,16 +15,6 @@ const tokenAuth = require('./middlewares/token')
 const app = express()
 app.use(express.json())
 
-// app.use((req,res,next)=>{
-//     res.header('Access-Control-Allow-Origin','*')
-//     next()
-// })
-
-// app.get('/allow-cors', function(request, response) {
-//     response.set('Access-Control-Allow-Origin', '*');
-//     response.sendFile(__dirname + '/message.json');
-//   });
-
 var whitelist = ['https://url-shortner-node-app.netlify.app/', 'http://localhost:8000/']
 var corsOptions = {
     origin: function (origin, callback) {

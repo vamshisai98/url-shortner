@@ -49,7 +49,7 @@ app.post('/register', async (req, res) => {
             let verifyString = (Math.random() * 1e32).toString(36)
             let transporter = nodemailer.createTransport({
                 host: "smtp.gmail.com",
-                port: 587,
+                port: 25,
                 secure: false, // true for 465, false for other ports
                 auth: {
                     user: process.env.USER_SENDER, // generated ethereal user

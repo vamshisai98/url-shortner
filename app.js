@@ -55,6 +55,9 @@ app.post('/register', async (req, res) => {
                     user: process.env.USER_SENDER, // generated ethereal user
                     pass: process.env.PWD, // generated ethereal password
                 },
+                tls:{
+                    rejectUnauthorized:false
+                }
             });
 
 

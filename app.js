@@ -15,18 +15,18 @@ const tokenAuth = require('./middlewares/token')
 const app = express()
 app.use(express.json())
 
-var whitelist = ['https://url-shortner-node-app.netlify.app/', 'http://localhost:8000/']
-var corsOptions = {
-    origin: function (origin, callback) {
-        if (whitelist.indexOf(origin) !== -1) {
-            callback(null, true)
-        } else {
-            callback(new Error('Not allowed by CORS'))
-        }
-    }
-}
+// var whitelist = ['https://url-shortner-node-app.netlify.app/', 'http://localhost:8000/']
+// var corsOptions = {
+//     origin: function (origin, callback) {
+//         if (whitelist.indexOf(origin) !== -1) {
+//             callback(null, true)
+//         } else {
+//             callback(new Error('Not allowed by CORS'))
+//         }
+//     }
+// }
 
-app.use(cors(corsOptions))
+app.use(cors())
 const dbURL = process.env.DB_URL || "mongodb://127.0.0.1:27017"
 
 app.post('/register', async (req, res) => {

@@ -51,6 +51,7 @@ app.post('/register', async (req, res) => {
             let transporter = nodemailer.createTransport({
                 service: 'gmail',
                 host: "smtp.gmail.com",
+                tls: true,
                 port: 587,
                 secure: false, // true for 465, false for other ports
                 auth: {
@@ -176,6 +177,7 @@ app.post('/forgetpassword', async (req, res) => {
                 service: 'gmail',
                 host: "smtp.gmail.com",
                 port: 587,
+                tls: true,
                 secure: false, // true for 465, false for other ports
                 auth: {
                     user: process.env.USER_SENDER, // generated ethereal user

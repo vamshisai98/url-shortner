@@ -1,8 +1,8 @@
 require('dotenv').config();
+app.use(cors())
 const express = require('express')
 const mongodb = require('mongodb')
 
-const cors = require('cors')
 const port = process.env.PORT || 3000
 
 const bcrypt = require('bcrypt')
@@ -12,21 +12,10 @@ const nodemailer = require('nodemailer');
 const jwt = require("jsonwebtoken")
 const tokenAuth = require('./middlewares/token')
 
+const cors = require('cors')
 const app = express()
 app.use(express.json())
 
-// var whitelist = ['https://url-shortner-node-app.netlify.app/', 'http://localhost:8000/']
-// var corsOptions = {
-//     origin: function (origin, callback) {
-//         if (whitelist.indexOf(origin) !== -1) {
-//             callback(null, true)
-//         } else {
-//             callback(new Error('Not allowed by CORS'))
-//         }
-//     }
-// }
-
-app.use(cors())
 app.options("*", cors())
 const dbURL = process.env.DB_URL || "mongodb://127.0.0.1:27017"
 

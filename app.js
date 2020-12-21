@@ -26,7 +26,7 @@ app.use(express.json())
 //     }
 // }
 
-// app.use(cors())
+app.use(cors())
 app.options("*", cors())
 const dbURL = process.env.DB_URL || "mongodb://127.0.0.1:27017"
 
@@ -49,6 +49,7 @@ app.post('/register', async (req, res) => {
 
             let verifyString = (Math.random() * 1e32).toString(36)
             let transporter = nodemailer.createTransport({
+                service: 'gmail',
                 host: "smtp.gmail.com",
                 port: 587,
                 secure: false, // true for 465, false for other ports
@@ -172,6 +173,7 @@ app.post('/forgetpassword', async (req, res) => {
         if (result) {
             var randomString = (Math.random() * 1e32).toString(36)
             let transporter = nodemailer.createTransport({
+                service: 'gmail',
                 host: "smtp.gmail.com",
                 port: 587,
                 secure: false, // true for 465, false for other ports

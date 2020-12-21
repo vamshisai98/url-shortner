@@ -1,5 +1,5 @@
+const cors = require('cors')
 require('dotenv').config();
-app.use(cors())
 const express = require('express')
 const mongodb = require('mongodb')
 
@@ -12,10 +12,10 @@ const nodemailer = require('nodemailer');
 const jwt = require("jsonwebtoken")
 const tokenAuth = require('./middlewares/token')
 
-const cors = require('cors')
 const app = express()
 app.use(express.json())
 
+app.use(cors())
 app.options("*", cors())
 const dbURL = process.env.DB_URL || "mongodb://127.0.0.1:27017"
 

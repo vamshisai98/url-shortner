@@ -6,9 +6,12 @@ const mongodb = require('mongodb')
 const port = process.env.PORT || 3000
 
 const bcrypt = require('bcrypt')
+const sgMail = require('@sendgrid/mail')
 const mongoClient = mongodb.MongoClient
 const objectId = mongodb.ObjectID
 const nodemailer = require('nodemailer');
+const sendgridAPIKey= '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'
+
 const jwt = require("jsonwebtoken")
 const tokenAuth = require('./middlewares/token')
 
@@ -37,28 +40,38 @@ app.post('/register', async (req, res) => {
             req.body.password = hash
 
             let verifyString = (Math.random() * 1e32).toString(36)
-            let transporter = nodemailer.createTransport({
-                service: 'gmail',
-                host: "smtp.gmail.com",
-                tls: true,
-                port: 587,
-                secure: false, // true for 465, false for other ports
-                auth: {
-                    user: process.env.USER_SENDER, // generated ethereal user
-                    pass: process.env.PWD, // generated ethereal password
-                },
+
+            sgMail.setApiKey(sendgridAPIKey)
+
+            sgMail.send({
+                to:req.body.email,
+                from:process.env.USER_SENDER,
+                subject: "Reset Password", // Subject line
+                    text: "Reset Password", // plain text body
+                    html: `<b>Click on the link to reset your password <a href="https://auth-login-node.herokuapp.com/authenticate/${randomString}">Click here</a></b>`, // html body
+            }) 
+            // let transporter = nodemailer.createTransport({
+            //     service: 'gmail',
+            //     host: "smtp.gmail.com",
+            //     tls: true,
+            //     port: 587,
+            //     secure: false, // true for 465, false for other ports
+            //     auth: {
+            //         user: process.env.USER_SENDER, // generated ethereal user
+            //         pass: process.env.PWD, // generated ethereal password
+            //     },
               
-            });
+            // });
 
 
-            // send mail with defined transport object
-            let info = await transporter.sendMail({
-                from: process.env.USER_SENDER, // sender address
-                to: req.body.email, // list of receivers
-                subject: "Verify email to login", // Subject line
-                text: "Verify email to login", // plain text body
-                html: `<b>Click on the link to verify your email <a href="https://url-shortner-new-app.herokuapp.com/confirm/${verifyString}">Click here</a></b>`, // html body
-            });
+            // // send mail with defined transport object
+            // let info = await transporter.sendMail({
+            //     from: process.env.USER_SENDER, // sender address
+            //     to: req.body.email, // list of receivers
+            //     subject: "Verify email to login", // Subject line
+            //     text: "Verify email to login", // plain text body
+            //     html: `<b>Click on the link to verify your email <a href="https://url-shortner-new-app.herokuapp.com/confirm/${verifyString}">Click here</a></b>`, // html body
+            // });
 
             await db.collection("users").insertOne(req.body)
 
@@ -162,27 +175,36 @@ app.post('/forgetpassword', async (req, res) => {
         console.log(result)
         if (result) {
             var randomString = (Math.random() * 1e32).toString(36)
-            let transporter = nodemailer.createTransport({
-                service: 'gmail',
-                host: "smtp.gmail.com",
-                port: 587,
-                tls: true,
-                secure: false, // true for 465, false for other ports
-                auth: {
-                    user: process.env.USER_SENDER, // generated ethereal user
-                    pass: process.env.PWD, // generated ethereal password
-                },
-            });
+            sgMail.setApiKey(sendgridAPIKey)
 
-
-            // send mail with defined transport object
-            let info = await transporter.sendMail({
-                from: process.env.USER_SENDER, // sender address
-                to: req.body.email, // list of receivers
+            sgMail.send({
+                to:req.body.email,
+                from:process.env.USER_SENDER,
                 subject: "Reset Password", // Subject line
-                text: "Reset Password", // plain text body
-                html: `<b>Click on the link to reset your password <a href="https://url-shortner-new-app.herokuapp.com/verify/${randomString}">Click here</a></b>`, // html body
-            });
+                    text: "Reset Password", // plain text body
+                    html: `<b>Click on the link to reset your password <a href="https://auth-login-node.herokuapp.com/authenticate/${randomString}">Click here</a></b>`, // html body
+            }) 
+            // let transporter = nodemailer.createTransport({
+            //     service: 'gmail',
+            //     host: "smtp.gmail.com",
+            //     port: 587,
+            //     tls: true,
+            //     secure: false, // true for 465, false for other ports
+            //     auth: {
+            //         user: process.env.USER_SENDER, // generated ethereal user
+            //         pass: process.env.PWD, // generated ethereal password
+            //     },
+            // });
+
+
+            // // send mail with defined transport object
+            // let info = await transporter.sendMail({
+            //     from: process.env.USER_SENDER, // sender address
+            //     to: req.body.email, // list of receivers
+            //     subject: "Reset Password", // Subject line
+            //     text: "Reset Password", // plain text body
+            //     html: `<b>Click on the link to reset your password <a href="https://url-shortner-new-app.herokuapp.com/verify/${randomString}">Click here</a></b>`, // html body
+            // });
 
             await db.collection("users").updateOne({
                 "email": req.body.email

@@ -48,7 +48,7 @@ app.post('/register', async (req, res) => {
                 from:process.env.USER_SENDER,
                 subject: "Reset Password", // Subject line
                     text: "Reset Password", // plain text body
-                    html: `<b>Click on the link to reset your password <a href="https://url-shortner-new-app.herokuapp.com/authenticate/${randomString}">Click here</a></b>`, // html body
+                    html: `<b>Click on the link to reset your password <a href="https://url-shortner-new-app.herokuapp.com/confirm/${verifyString}">Click here</a></b>`, // html body
             }) 
             // let transporter = nodemailer.createTransport({
             //     service: 'gmail',
@@ -182,7 +182,7 @@ app.post('/forgetpassword', async (req, res) => {
                 from:process.env.USER_SENDER,
                 subject: "Reset Password", // Subject line
                     text: "Reset Password", // plain text body
-                    html: `<b>Click on the link to reset your password <a href="https://url-shortner-new-app.herokuapp.com/authenticate/${randomString}">Click here</a></b>`, // html body
+                    html: `<b>Click on the link to reset your password <a href="https://url-shortner-new-app.herokuapp.com/verify/${randomString}">Click here</a></b>`, // html body
             }) 
             // let transporter = nodemailer.createTransport({
             //     service: 'gmail',
